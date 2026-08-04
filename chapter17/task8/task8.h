@@ -1,74 +1,82 @@
-// task8.h
-// интерфейс двоичного дерева поиска для клуба животных
-
-#ifndef TASK8_H_
-#define TASK8_H_
-
+//Листинг 17.10. Заголовочный файл tree.h для и интерфейса двоичного дерева поиска
+/* tree.h -- двоичное дерево поиска */ 
+/*          дублированные элементы в этом дереве не разрешены */
+#ifndef _TREE_H_
+#define _TREE_H_
 #include <stdbool.h>
-// список видов животных с одинаковой кличкой
-typedef struct list
-{
-    char petkind[20];
-    struct list *next;
-
-} List;
-
-// элемент дерева
+/* переопределение типа Item подходящим образом */ 
 typedef struct item
 {
-    char petname[20];   // кличка животного
-    List *head;         // список видов с этой кличкой
+char petname[20] ; 
+char petkind[20];
+}Item;
 
-} Item;
-
-#define MAXITEMS 10
-
-// узел дерева
-
-typedef struct trnode
+#define MAXITEMS 10 
+typedef struct trnode 
 {
-    Item item;
-
-    struct trnode *left;
-    struct trnode *right;
-
-} Trnode;
-
-// само дерево
-typedef struct tree
+Item item;
+struct tmode * left; /* указатель на левую ветвь */
+struct tmode * right; /* указатель на правую ветвь */
+}Trnode;
+typedef struct tree 
 {
-    Trnode *root;
-
-    int size;
-
+Trnode * root; /* указатель на корень дерева */
+int size; /* количество элементов в дереве */
 } Tree;
+/* прототипы функций */
+/* операция: инициализация дерева пустым содержимым 
+/* предусловия: ptree указывает на дерево 
+/* постусловия: дерево установлено в пустое состояние*/
+void InitializeTree(Tree * ptree);
 
-// инициализация дерева
-void InitializeTree(Tree *ptree);
+/* операция: определение, является ли дерево пустым 
+/* предусловия: ptree указывает на дерево 
+/* постусловия: функция возвращает true, если 
+деревео пустое, и false — в противном случае */
+bool TreelsEmpty (const Tree * ptree);
 
-// проверка пустоты дерева
-bool TreeIsEmpty(const Tree *ptree);
+/* операция: определение, является ли дерево полным 
+/ * предусловия: ptree указывает на дерево 
+/* постусловия: функция возвращает true, если дерево
+полное, и false — в противном случае */
+bool TreelsFull(const Tree * ptree);
 
-// проверка заполненности дерева
-bool TreeIsFull(const Tree *ptree);
+/* операция: определение количества элементов в дереве */
+/* предусловия: ptree указывает на дерево 
+/* постусловия: функция возвращает количество элементов в дереве */
+int TreeItemCount(const Tree * ptree);
 
-// количество узлов дерева
-int TreeItemCount(const Tree *ptree);
+/* операция: добавление элемента к дереву 
+/* предусловия: pi — адрес добавляемого элемента 
+                ptree указывает на инициализированное дерево */
+/* постусловия: если возможно, функция добавляет элемент 
+                к дереву и возвращает true; 
+                в противном случае она возвращает false */
+bool AddItem(const Item * pi, Tree * ptree) ;
+/* операция: поиск элемента в дереве 
+/* предусловия: pi указывает на элемент 
+                ptree указывает на инициализированное дерево 
+/* постусловия: функция возвращает true, если элемент присутствует 
+                в дереве, и false — в противном случае */
+bool InTree(const Item * pi, const Tree * ptree);
+/* операция: удаление элемента из дерева 
+/* предусловия: pi — адрес удаляемого элемента 
+/*              ptree указывает на инициализированное дерево 
+/* постусловия: если возможно, функция удаляет элемент из дерева 
+/*              и возвращает true; в противном случае функция 
+/*              возвращает false */
+bool Deleteitem(const Item * pi, Tree * ptree);
 
-// добавление элемента
-bool AddItem(const Item *pi, Tree *ptree);
+/* операция: применение указанной функции к каждому элементу в дереве */ 
+/* предусловия: ptree указывает на дерево 
+                pfun указывает на функцию, которая принимает 
+                аргумент Item и не имеет возвращаемого значения 
+/* постусловия: функция, указанная с помощью pfun, выполняется один раз 
+                для каждого элемента в дереве */
+void Traverse (const Tree * ptree, void (* pfun) (Item item));
 
-// поиск элемента
-bool InTree(const Item *pi, const Tree *ptree);
-
-// удаление элемента
-bool DeleteItem(const Item *pi, Tree *ptree);
-
-// обход дерева
-void Traverse(const Tree *ptree,
-              void (*pfun)(Item item));
-
-// удаление всего дерева
-void DeleteAll(Tree *ptree);
-
+/* операция:    удаление всех элементов из дерева 
+/* предусловия: ptree указывает на инициализированное дерево 
+/* постусловия: дерево является пустым */
+void DeleteAll(Tree * ptree);
 #endif
