@@ -13,6 +13,7 @@ void findpet(const Tree * pt);
 void printitem(Item item); 
 void uppercase(char * str); 
 char * s_gets(char * st, int n);
+void delete_List(Item item);
 
 
 int main(void)
@@ -40,6 +41,7 @@ int main(void)
             puts("Oshibka v swqith");
         }
     }
+    Traverse(&pets, delete_List);
     DeleteAll(&pets);
     puts("Programma zavershena.");
 
@@ -137,9 +139,25 @@ void printitem(Item item)
     putchar('\n');
 
 }
+
+void delete_List(Item item)
+{
+    List * list;
+    List * temp;
+    
+    list = item.head;
+
+    while(list != NULL)
+    {
+        temp = list;
+        list = list->next;
+        free(temp);
+    }
+}
 void findpet(const Tree * pt)
 {
     Item temp;
+    List * list;
     if(TreeIsEmpty(pt))
     {
         puts("Zapisi otsustvuut!");
@@ -154,8 +172,17 @@ void findpet(const Tree * pt)
     // printf("%s po imeni %s ", temp.petkind, temp.petname);
      printf(" po imeni %s ", temp.petname);
 
-    if(InTree(&temp, pt))
+    list = get_item(pt, &temp);
+    if(list != NULL)
+    {
+        printf("porodi: ");
+        while(list != NULL)
+        {
+            printf("%s ", list->petkind);
+            list = list->next;
+        }
         printf("yavlyaetsya chlenom kluba.\n");
+    }
     else
         printf("ne yavlyatsya clenom kluba.\n");
 }

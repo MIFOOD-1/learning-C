@@ -91,10 +91,7 @@ void Traverse (const Tree * ptree, void (* pfun) (Item item));
 /* постусловия: дерево является пустым */
 void DeleteAll(Tree * ptree);
 
-List * get_item(Tree * ptree, Item * item); 
-
-bool Inicialise_List(List * pt);
-
+List * get_item(const Tree * ptree, Item * item); 
 
 #endif
 

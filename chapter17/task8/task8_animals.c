@@ -256,7 +256,7 @@ static void DeleteNode(Trnode **ptr)
     }
 }
 
-List * get_item(Tree * ptree, Item * item)
+List * get_item(const Tree * ptree, Item * item)
 {
     Pair pair;
     pair = SeekItem(item, ptree);
@@ -266,10 +266,6 @@ List * get_item(Tree * ptree, Item * item)
         return pair.child->item.head;       
 }
 
-bool Inicialise_List(List * pt)
-{
-    
-}
 
 
 
