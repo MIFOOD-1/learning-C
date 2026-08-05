@@ -83,7 +83,7 @@ bool InTree(const Item * pi, const Tree * ptree)
     return (SeekItem(pi, ptree).child == NULL) ? false : true ;
 }
 
-bool DeletItem(const Item * pi, Tree * ptree)
+bool DeleteItem(const Item * pi, Tree * ptree)
 {
     Pair look;
     look = SeekItem(pi, ptree);
@@ -149,7 +149,7 @@ static void AddNode(Trnode * new_node, Trnode * root)
     else if(ToRight(&new_node->item, &root->item))
     {
         if(root->right == NULL)
-            root->right == new_node;
+            root->right = new_node;
         else
             AddNode(new_node, root->right);
     }
@@ -164,9 +164,21 @@ static bool ToRight(const Item * i1, const Item * i2)
     int compl;
     if((compl = strcmp(i1->petname, i2->petname)) > 0)
         return true;
-    else if(compl == 0 &&
-                strcmp(i1->petkind, i2->petkind) > 0)
-    return true;
+    // else if(compl == 0 &&
+    //             strcmp(i1->petkind, i2->petkind) > 0)
+    // return true;
+    else
+        return false;
+}
+
+static bool ToLeft(const Item * i1, const Item * i2)
+{
+    int compl;
+    if((compl = strcmp(i1->petname, i2->petname)) < 0)
+        return true;
+    // else if(compl == 0 &&
+    //             strcmp(i1->petkind, i2->petkind) < 0)
+    // return true;
     else
         return false;
 }
@@ -201,7 +213,7 @@ static Pair SeekItem(const Item * pi, const Tree * ptree)
         look.parent = look.child;
         look.child = look.child->left;
     }
-    else if(ToRight(pi, &(look.child->item)))
+        else if(ToRight(pi, &(look.child->item)))
     {
         look.parent = look.child;
         look.child = look.child->right;
@@ -213,7 +225,7 @@ static Pair SeekItem(const Item * pi, const Tree * ptree)
     return look;        //возврат в случае успеха
 }
 
-
+//111111
 static void DeleteNode(Trnode **ptr)
 //адрес родитетельского элемента, указывающего на целевой узел
 {

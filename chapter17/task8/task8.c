@@ -23,13 +23,16 @@ int main(void)
     {
         switch (choice)
         {
-        case 'a' : addpet(&pets);
+        case 'a' : addpet(&pets);               //ошибка
             break;
-        case 'l' : showpets(&pets);
+        case 'l' : showpets(&pets);             //ошибка
             break;
-        case 'f' : printf("%d zivotnih v clube \n",
+        case 'n' : printf("%d zivotnih v clube \n",
                             TreeItemCount(&pets));
             break;
+        case 'f' : findpet(&pets);
+            break;
+            
         case 'd' : droppet(&pets);
             break;
         default:
@@ -66,20 +69,27 @@ char menu(void)
     return ch;
 }
 
-void addept(Tree * pt)
+void addpet(Tree * pt)
 {
     Item temp;
+    char pet[SLEN];
+    char kind[SLEN];
 
     if(TreeIsFull(pt))
         puts("V klube bolse net mest!");
     else
     {
         puts("Vvedite cklichku zivotnogo:");
-        s_gets(temp.petname, SLEN);
+        s_gets(pet, SLEN);
+        uppercase(pet);
         puts("Vvedite vid zivotnogo:");
-        s_gets(temp.petkind, SLEN);
-        uppercase(temp.petname);
-        uppercase(temp.petkind);
+        s_gets(kind, SLEN);
+        
+
+        
+        // puts("Vvedite vid zivotnogo:");
+        // s_gets(temp.petkind, SLEN);
+        // uppercase(temp.petkind);
         AddItem(&temp, pt);
     }
 }
@@ -92,11 +102,15 @@ void showpets(const Tree * pt)
         Traverse(pt, printitem);
 }
 
+// void printitem(Item item)
+// {
+//     printf("Zivotnoe: %-19s Vid: %-19s\n", item.petname, item.petkind);
+// }
+
 void printitem(Item item)
 {
-    printf("Zivotnoe: %-19s Vid: %-19s\n", item.petname, item.petkind);
+    printf("Zivotnoe: %-19s \n", item.petname);
 }
-
 void findpet(const Tree * pt)
 {
     Item temp;
@@ -107,11 +121,13 @@ void findpet(const Tree * pt)
     }
     puts("Vvedite kclichu zivotnogo, kotoroe hotite naiti:");
     s_gets(temp.petname, SLEN);
-    puts("Vvedite vid zivotnogo:");
-    s_gets(temp.petkind, SLEN);
+    // puts("Vvedite vid zivotnogo:");
+    // s_gets(temp.petkind, SLEN);
     uppercase(temp.petname);
-    uppercase(temp.petkind);
-    printf("%s po imeni %s ", temp.petkind, temp.petname);
+    // uppercase(temp.petkind);
+    // printf("%s po imeni %s ", temp.petkind, temp.petname);
+     printf(" po imeni %s ", temp.petname);
+
     if(InTree(&temp, pt))
         printf("yavlyaetsya chlenom kluba.\n");
     else
@@ -129,10 +145,12 @@ void droppet(Tree * pt)
     puts("Vvedite klicki zovotnogo, kotoroe nuzno iskluchit iz kluba: ");
     s_gets(temp.petname, SLEN);
     puts("Vvedite vid zivotnogo:");
-    s_gets(temp.petkind, SLEN);
+    // s_gets(temp.petkind, SLEN);
     uppercase(temp.petname);
-    uppercase(temp.petkind);
-    printf("%s po imeni %s ", temp.petkind, temp.petname);
+    // uppercase(temp.petkind);
+    printf("po imeni %s ", temp.petname);
+    // printf("%s po imeni %s ", temp.petkind, temp.petname);
+
     if(DeleteItem(&temp, pt))
         printf("iskluchen(a) iz kluba.\n");
     else
@@ -166,109 +184,3 @@ char * s_gets(char * st, int n)
     return ret_val;
 }
 
-//ЛИстинг 17.2 Программа films2.c
-//films2.c -- использование связного списка структур
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#define TSIZE 45
-
-
-struct film{
-    char title[TSIZE];
-    int rating;
-    struct film * next;
-    struct film * prev;
-};
-
-bool invert_print(struct film * pr)
-{
-    if(pr == NULL)
-        return false;
-
-    invert_print(pr->next);
-        printf("Film: %s Rating: %d\n", pr->title, pr->rating);
-}
-
-    char * s_gets(char * st, int n)
-    {
-        char * ret_val;
-        char * find;
-
-        ret_val = fgets(st, n, stdin);
-        if(ret_val)
-        {
-            find = strchr(st, '\n');
-            if(find)
-            *find = '\0';
-            else
-                while(getchar() != '\n')
-                    continue;
-        }
-        return ret_val;
-    }
-
-    int main(void)
-    {
-        struct film * head = NULL;
-        struct film * end = NULL;
-        struct film * prev, * current;
-        char input[TSIZE];
-        //Sbor i cohranenoe infi
-        puts("Vvedite nazvaie perbogo flma:");
-        while(s_gets(input, TSIZE) != NULL && input[0] != '\0')
-        {
-            current = (struct film *) malloc(sizeof(struct film));
-            current->next = NULL;
-            current->prev = NULL;
-
-            if(head == NULL)
-                head = current;
-            else
-            {
-                prev->next = current;
-                current->prev = prev;
-            }
-            strcpy(current->title, input);
-            puts("Vvedite cvoe znachenie raitinga <0-10>:");
-            scanf("%d", &current->rating);
-            while(getchar() != '\n')
-                continue;
-            puts("VVedite nazvanmie sledushego filma (ili pustuu stroku dlya prekrasheniya vvoda):");
-                prev = current;
-                end = current;
-        }
-        if(head == NULL)
-        printf("Dannie ne vvedeni");
-        else
-            printf("Spisok filmov:\n");
-        current = head;
-        
-
-        invert_print(head);
-        // while(current != NULL)
-        // {
-        //     printf("Film: %s Rating: %d\n", current->title, current->rating);
-        //     current = current->next;
-        // }
-
-        // current = end;
-        // while(current != NULL)
-        // {
-        //     printf("Film: %s Rating: %d\n", current->title, current->rating);
-        //     current = current->prev;
-        // }
-        // //Programma vipolnena, poetomu moazno osvobodit pamyat
-        // current = head;
-        // while(current != NULL)
-        // {
-        //     current = head;
-        //     head = current->next;
-        //     free(current);
-        // }
-
-        printf("programma zavehsena\n");
-
-        return 0;
-    }

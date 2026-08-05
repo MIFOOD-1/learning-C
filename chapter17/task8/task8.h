@@ -5,18 +5,27 @@
 #define _TREE_H_
 #include <stdbool.h>
 /* переопределение типа Item подходящим образом */ 
+
+#define SLEN 20
+typedef struct list
+{
+    char petkind[SLEN];
+    struct list * next;
+}List;
+
 typedef struct item
 {
-char petname[20] ; 
-char petkind[20];
+char petname[SLEN];
+List * head;
 }Item;
+
 
 #define MAXITEMS 10 
 typedef struct trnode 
 {
 Item item;
-struct tmode * left; /* указатель на левую ветвь */
-struct tmode * right; /* указатель на правую ветвь */
+struct trnode * left; /* указатель на левую ветвь */
+struct trnode * right; /* указатель на правую ветвь */
 }Trnode;
 typedef struct tree 
 {
@@ -33,13 +42,13 @@ void InitializeTree(Tree * ptree);
 /* предусловия: ptree указывает на дерево 
 /* постусловия: функция возвращает true, если 
 деревео пустое, и false — в противном случае */
-bool TreelsEmpty (const Tree * ptree);
+bool TreeIsEmpty (const Tree * ptree);
 
 /* операция: определение, является ли дерево полным 
 / * предусловия: ptree указывает на дерево 
 /* постусловия: функция возвращает true, если дерево
 полное, и false — в противном случае */
-bool TreelsFull(const Tree * ptree);
+bool TreeIsFull(const Tree * ptree);
 
 /* операция: определение количества элементов в дереве */
 /* предусловия: ptree указывает на дерево 
@@ -65,7 +74,7 @@ bool InTree(const Item * pi, const Tree * ptree);
 /* постусловия: если возможно, функция удаляет элемент из дерева 
 /*              и возвращает true; в противном случае функция 
 /*              возвращает false */
-bool Deleteitem(const Item * pi, Tree * ptree);
+bool DeleteItem(const Item * pi, Tree * ptree);
 
 /* операция: применение указанной функции к каждому элементу в дереве */ 
 /* предусловия: ptree указывает на дерево 
