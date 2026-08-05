@@ -255,3 +255,21 @@ static void DeleteNode(Trnode **ptr)
         free(temp);
     }
 }
+
+List * get_item(Tree * ptree, Item * item)
+{
+    Pair pair;
+    pair = SeekItem(item, ptree);
+    if(pair.child == NULL)
+        return NULL;
+    else 
+        return pair.child->item.head;       
+}
+
+bool Inicialise_List(List * pt)
+{
+    
+}
+
+
+

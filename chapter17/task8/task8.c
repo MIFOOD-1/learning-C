@@ -14,6 +14,7 @@ void printitem(Item item);
 void uppercase(char * str); 
 char * s_gets(char * st, int n);
 
+
 int main(void)
 {
     Tree pets;
@@ -74,6 +75,7 @@ void addpet(Tree * pt)
     Item temp;
     char pet[SLEN];
     char kind[SLEN];
+    List * list;
 
     if(TreeIsFull(pt))
         puts("V klube bolse net mest!");
@@ -84,13 +86,26 @@ void addpet(Tree * pt)
         uppercase(pet);
         puts("Vvedite vid zivotnogo:");
         s_gets(kind, SLEN);
-        
 
-        
-        // puts("Vvedite vid zivotnogo:");
-        // s_gets(temp.petkind, SLEN);
-        // uppercase(temp.petkind);
-        AddItem(&temp, pt);
+        strcpy(temp.petname, pet);
+        list = get_item(pt, &temp);
+        if(list == NULL)
+        {
+            temp.head = (List *)malloc(sizeof(List));
+            strcpy(temp.head->petkind, kind); 
+            temp.head->next = NULL;
+            AddItem(&temp, pt);
+        }
+        else
+        {
+            while(list->next != NULL)
+                list = list->next;
+            
+            list->next = (List *)malloc(sizeof(List));
+            strcpy(list->next->petkind, kind);
+            list->next->next = NULL;
+        }
+            
     }
 }
 
@@ -109,7 +124,18 @@ void showpets(const Tree * pt)
 
 void printitem(Item item)
 {
-    printf("Zivotnoe: %-19s \n", item.petname);
+    printf("KLichka: %-19s      Porodi: ", item.petname);
+
+    
+    int num = 1;
+    while(item.head != NULL)
+    {
+        printf("%d %s  ", num++, item.head->petkind);
+        item.head = item.head->next;
+    }
+    
+    putchar('\n');
+
 }
 void findpet(const Tree * pt)
 {

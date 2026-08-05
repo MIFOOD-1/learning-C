@@ -4,6 +4,8 @@
 #ifndef _TREE_H_
 #define _TREE_H_
 #include <stdbool.h>
+#include <stdlib.h>
+
 /* переопределение типа Item подходящим образом */ 
 
 #define SLEN 20
@@ -88,4 +90,11 @@ void Traverse (const Tree * ptree, void (* pfun) (Item item));
 /* предусловия: ptree указывает на инициализированное дерево 
 /* постусловия: дерево является пустым */
 void DeleteAll(Tree * ptree);
+
+List * get_item(Tree * ptree, Item * item); 
+
+bool Inicialise_List(List * pt);
+
+
 #endif
+
